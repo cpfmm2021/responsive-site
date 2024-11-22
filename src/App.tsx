@@ -1,10 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Signup from './pages/Signup';
+import SignupPage from './pages/SignupPage';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,21 +23,21 @@ function App() {
               <div className="flex justify-between h-16">
                 <div className="flex">
                   <div className="flex-shrink-0 flex items-center">
-                    <a href="/" className="text-2xl font-bold text-primary">Portfolio</a>
+                    <Link to="/" className="text-2xl font-bold text-primary">Portfolio</Link>
                   </div>
                 </div>
 
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex md:items-center md:space-x-4">
-                  <a href="/" className="text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
+                  <Link to="/" className="text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
                     Home
-                  </a>
-                  <a href="/login" className="text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
+                  </Link>
+                  <Link to="/login" className="text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
                     Login
-                  </a>
-                  <a href="/signup" className="text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
+                  </Link>
+                  <Link to="/signup" className="text-gray-700 dark:text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium">
                     Signup
-                  </a>
+                  </Link>
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -73,21 +73,21 @@ function App() {
             <AnimatePresence>
               {isOpen && (
                 <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
                   className="md:hidden"
                 >
-                  <div className="px-2 pt-2 pb-3 space-y-1">
-                    <a href="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary">
+                  <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <Link to="/" className="text-gray-700 dark:text-gray-300 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">
                       Home
-                    </a>
-                    <a href="/login" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary">
+                    </Link>
+                    <Link to="/login" className="text-gray-700 dark:text-gray-300 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">
                       Login
-                    </a>
-                    <a href="/signup" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary">
+                    </Link>
+                    <Link to="/signup" className="text-gray-700 dark:text-gray-300 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">
                       Signup
-                    </a>
+                    </Link>
                   </div>
                 </motion.div>
               )}
@@ -95,13 +95,13 @@ function App() {
           </nav>
 
           {/* Main Content */}
-          <main className="pt-16">
+          <div className="pt-16">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path="/signup" element={<SignupPage />} />
             </Routes>
-          </main>
+          </div>
         </div>
       </Router>
     </AuthProvider>

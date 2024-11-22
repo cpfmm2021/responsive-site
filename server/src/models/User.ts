@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 export interface IUser extends mongoose.Document {
-  name: string;
+  username: string;
   email: string;
   password: string;
   isEmailVerified: boolean;
@@ -15,10 +15,13 @@ export interface IUser extends mongoose.Document {
 }
 
 const userSchema = new mongoose.Schema({
-  name: {
+  username: {
     type: String,
-    required: [true, '이름을 입력해주세요'],
+    required: [true, '활동명을 입력해주세요'],
+    unique: true,
     trim: true,
+    minlength: [2, '활동명은 최소 2자 이상이어야 합니다'],
+    maxlength: [20, '활동명은 최대 20자까지 가능합니다']
   },
   email: {
     type: String,
@@ -44,6 +47,8 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+}, {
+  timestamps: true
 });
 
 // 비밀번호 해싱 미들웨어

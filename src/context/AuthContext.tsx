@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface User {
   id: string;
-  name: string;
+  username: string;
   email: string;
 }
 
@@ -10,7 +10,7 @@ interface AuthContextType {
   user: User | null;
   token: string | null;
   login: (email: string, password: string) => Promise<void>;
-  signup: (name: string, email: string, password: string) => Promise<void>;
+  signup: (username: string, email: string, password: string, confirmPassword: string) => Promise<void>;
   logout: () => void;
   loading: boolean;
   error: string | null;
@@ -66,14 +66,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const signup = async (name: string, email: string, password: string) => {
+  const signup = async (username: string, email: string, password: string, confirmPassword: string) => {
     try {
       const response = await fetch('http://localhost:5000/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ username, email, password, confirmPassword }),
         credentials: 'include'
       });
 

@@ -8,12 +8,23 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
 export const signup = async (req: Request, res: Response) => {
   try {
-    const { name, email, password } = req.body;
+    const { username, email, password, confirmPassword } = req.body;
 
-    // 이메일 중복 체크
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: '이미 사용 중인 이메일입니다.' });
+    // 비밀번호 확인 검증
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: '비밀번호가 일치하지 않습니다' });
+    }
+
+    // 이메일 중복 확인
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      return res.status(400).json({ message: '이미 사용 중인 이메일입니다' });
+    }
+
+    // 활동명 중복 확인
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      return res.status(400).json({ message: '이미 사용 중인 활동명입니다' });
     }
 
     // 이메일 인증 토큰 생성
@@ -22,7 +33,7 @@ export const signup = async (req: Request, res: Response) => {
 
     // 새 사용자 생성
     const user = await User.create({
-      name,
+      username,
       email,
       password,
       emailVerificationToken,
@@ -94,7 +105,7 @@ export const login = async (req: Request, res: Response) => {
       token,
       user: {
         id: user._id,
-        name: user.name,
+        username: user.username,
         email: user.email
       }
     });
